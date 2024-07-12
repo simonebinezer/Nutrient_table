@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Nutrients by Age</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+        .nutriention-input .input-field label {
+            font-weight: bold;
+            margin-right: 10px;
+            color: #555;
+            color: #000;
+            font-family: "Raleway", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            margin: 10px 0px 20px;
+            line-height: normal;
+        }
+
+        .nutriention-input .input-field span {
+            color: #000;
+            font-family: "Montserrat", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .nutriention-input button {
+            padding: 11px 40px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .nutriention-input button.active {
+            /* background-color: #4CAF50; */
+            color: white;
+        }
+
+        .nutriention-input input[type="text"] {
+            padding: 5px;
+            border-radius: 13px;
+            border: 1px solid #E9D2BB;
+            background: rgba(217, 185, 155, 0.00);
+            width: 100px;
+        }
+
+        .nutriention-input .input-field input[type=radio] {
+            appearance: none;
+            padding: 8px;
+            margin: 0px 5px;
+            background-color: rgba(231, 231, 231, 1);
+            border-radius: 50%;
+        }
+
+        .nutriention-input .input-field input[type=radio]:checked {
+            background-color: rgba(129, 96, 73, 1);
+            padding: 5px;
+            border: 3px solid rgba(233, 210, 187, 1);
+        }
+
+        #nutrients-table table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+
+        #nutrients-table tbody {
+            border-bottom: 1px solid #767676;
+        }
+
+        #nutrients-table td {
+            border-right: 1px solid #767676;
+            padding: 10px;
+            text-align: center;
+            color: #000;
+            font-family: "Montserrat", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 30px;
+        }
+
+        #nutrients-table th {
+            border: 1px solid #767676;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #nutrients-table thead tr th {
+            background-color: #ffffff;
+        }
+
+        /* td:nth-child(even) {
+            background-color: #f2f2f2;
+        } */
+
+        #nutrients-table {
+            display: none;
+            margin: auto;
+            width: 100%;
+        }
+
+        .nutriention-input {
+            text-align: left;
+            padding-top: 60px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .nutrietion-content h2 {
+            color: #A0816C;
+            font-family: "Raleway", sans-serif;
+            /* font-size: 32px; */
+            font-style: normal;
+            font-weight: 600;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .nutrietion-content p {
+            color: #000;
+            font-family: "Montserrat", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            text-align: left;
+            line-height: 30px;
+            /* 187.5% */
+        }
+
+        .nutrietion-content ul li {
+            color: #000;
+            font-family: "Montserrat", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            text-align: left;
+            line-height: 40px;
+            /* 187.5% */
+        }
+
+        .nutriention-input .input-field {
+            padding-right: 10px;
+            text-align: left;
+        }
+
+        .nutriention-input-field {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .Nutrient-radio {
+            text-align: left;
+            padding: 50px 0px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .Nutrient-radio span {
+            color: #000;
+            font-family: "Raleway", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+        }
+
+        .Nutrient-radio input {
+            accent-color: #858585;
+            appearance: none;
+            padding: 14px;
+            margin: -8px 5px;
+            background-color: rgba(231, 231, 231, 1);
+            border-radius: 30%;
+        }
+
+        .Nutrient-radio input[type=radio]:checked {
+            background-color: rgba(233, 210, 187, 1);
+            background: url(chk-box.png) no-repeat center;
+        }
+
+        .submit-nut {
+            border-radius: 40px;
+            padding: 10px 40px;
+            background: linear-gradient(90deg, #D9B99B 34.9%, #EED9C4 100%);
+        }
+
+        .submit-nut {
+            color: #343045;
+            font-family: "Montserrat", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+        }
+
+        #nutrients-table .default {
+            background-color: rgba(237, 208, 181, 0.6);
+            /* width: 250px; */
+        }
+
+        #nutrients-table thead tr th {
+            color: #000;
+            width: 250px;
+            text-align: center;
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+
+        .highlight {
+            background-color: rgba(237, 208, 181, 0.6);
+            /* Light grey background color */
+            border-left: 1px solid #767676;
+        }
+
+        .nut-table {
+            padding: 70px 0px;
+        }
+
+        .nut-table h4 {
+            text-align: left;
+            color: #000;
+            font-family: "Raleway", sans-serif;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 40px;
+        }
+
+        .nut-table h4 b {
+            text-align: left;
+            color: #000;
+            font-family: "Raleway", sans-serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 30px;
+        }
+
+        #nut-table {
+            display: none;
+        }
+
+        #stage {
+            padding: 5px;
+            border-radius: 13px;
+            border: 1px solid #E9D2BB;
+            background: rgba(217, 185, 155, 0.00);
+
+        }
+
+        #stage option {
+            background: #e2d0ba;
+            color: #fff;
+        }
+
+        #female_age_drpdwn {
+            padding: 5px;
+            border-radius: 13px;
+            border: 1px solid #E9D2BB;
+            background: rgba(217, 185, 155, 0.00);
+            width: 150px;
+        }
+
+        #female_age_drpdwn option {
+            background: #e2d0ba;
+            color: #fff;
+        }
+
+        #female_age_drpdwn option:root {
+            background: #e2d0ba;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="nutriention">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="nutrietion-content">
+                        <h2>Nutrients Requirements</h2>
+                        <p>Dorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est
+                            a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus,
+                            ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus.
+                        </p>
+                        <ul>
+                            <li>fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.
+                                Maecenas eget condimentum velit</li>
+                            <li>fringilla accumsan, risus sem sollicitudin lacus, </li>
+                            <li>fringilla accumsan, risus sem sollicitudin lacus, </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!-- <h1>Nutrients by Age</h1> -->
+
+                    <div class="nutriention-input">
+                        <div class="nutriention-input-field">
+                            <div class="input-field">
+                                <label for="age-input">Age</label></br>
+                                <input type="text" id="age-input" placeholder="">
+                                <select id="female_age_drpdwn" style="display: none;">
+                                    <option value="14-18">14-18</option>
+                                    <option value="19-30">19-30</option>
+                                    <option value="31-50">31-50</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <label>Gender</label></br>
+                                <input type="radio" id="male" name="sex" value="Male"><span>Male</span></button>
+                                <input type="radio" id="female" name="sex" value="Female"><span>Female</span>
+                            </div>
+                        </div>
+                        <div class="input-field" id="dropdown" style="display: none;">
+                            <label>Select stage</label></br>
+                            <select id="stage">
+                                <option value="">Not Pregnant</option>
+                                <option value="1st Trimester">1st Trimester</option>
+                                <option value="2nd Trimester">2nd Trimester</option>
+                                <option value="3rd Trimester">3rd Trimester</option>
+                                <option value="0-6 months">Lactating 0-6 months</option>
+                                <option value="7-12 months">Lactating 7-12 months</option>
+                            </select>
+                        </div>
+                        <div class="Nutrient-radio">
+                            <!-- <label>Nutrients:</label></br> -->
+                            <div>
+                                <input type="radio" name="nut" value="Vit"><span>Vitamins</span></button>
+                            </div>
+                            <div><input type="radio" name="nut" value="Min"><span>Minerals</span></button>
+                            </div>
+                            <div><input type="radio" name="nut" value="Both"><span>Both</span></button>
+                            </div>
+                            <br>
+                            <!-- Add more buttons as needed -->
+                        </div>
+
+                        <button class="submit-nut" onclick="filterTable()">Submit</button>
+                        <p id="error" style="display: none;color: red;"> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="nut-table" id="nut-table">
+        <div class="container">
+            <h4>Vitamins Recommended Daily Intake <b>(*RDA - Recommended Daily Allowances)</b></h4>
+            <table id="nutrients-table">
+
+                <thead>
+                    <tr>
+                        <th class="default">Nutrients</th>
+                        <th class="default">Source of Goal</th>
+                        <th class="age-group">2-3 (M/F)</th>
+                        <th class="age-group">4-8 Female</th>
+                        <th class="age-group">4-8 Male</th>
+                        <th class="age-group">9-13 Female</th>
+                        <th class="age-group">9-13 Male</th>
+                        <th class="age-group">14-18 Female</th>
+                        <th class="age-group">14-18 Male</th>
+                        <th class="age-group">19-30 Female</th>
+                        <th class="age-group">19-30 Male</th>
+                        <th class="age-group">31-50 Female</th>
+                        <th class="age-group">31-50 Male</th>
+                        <th class="age-group">50-70 Female</th>
+                        <th class="age-group">50-70 Male</th>
+                        <th class="age-group">>70 Female</th>
+                        <th class="age-group">>70 Male</th>
+                        <th class="age-group">14-18/1st Trimester</th>
+                        <th class="age-group">14-18/2nd Trimester</th>
+                        <th class="age-group">14-18/3rd Trimester</th>
+                        <th class="age-group">19-30/1st Trimester</th>
+                        <th class="age-group">19-30/2nd Trimester</th>
+                        <th class="age-group">19-30/3rd Trimester</th>
+                        <th class="age-group">31-50/1st Trimester</th>
+                        <th class="age-group">31-50/2nd Trimester</th>
+                        <th class="age-group">31-50/3rd Trimester</th>
+                        <th class="age-group">14-18/0-6 months</th>
+                        <th class="age-group">14-18/7-12 months</th>
+                        <th class="age-group">19-30/0-6 months</th>
+                        <th class="age-group">19-30/7-12 months</th>
+                        <th class="age-group">31-50/0-6 months</th>
+                        <th class="age-group">31-50/7-12 months</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#stage").on("change", function () {
+
+                if ($(this).val().length > 0) {
+                    $("#female_age_drpdwn").val("14-18");
+                    $("#female_age_drpdwn").show();
+
+                    $("#age-input").hide();
+                }
+                else {
+                    $("#age-input").show();
+
+                    $("#female_age_drpdwn").hide();
+
+                }
+            })
+
+
+            //dropdown for female 
+
+            $("#female").on("click", function () {
+                $("#dropdown").show();
+            })
+            $("#male").on("click", function () {
+                $("#dropdown").hide();
+                $("#age-input").show();
+
+                $("#female_age_drpdwn").hide();
+                $("#stage").val("");
+            })
+
+            $.ajax({
+                url: 'all_sheets_nutrients_by_age.json',
+                dataType: 'json',
+                success: function (data) {
+                    populateTable(data["Nutrition table"]);
+                },
+                error: function () {
+                    alert('Error loading JSON data');
+                }
+            });
+
+            function populateTable(data) {
+                var tbody = $('#nutrients-table tbody');
+                tbody.empty();
+                data.forEach(function (row) {
+                    var tr = $('<tr></tr>');
+                    tr.append('<td class="highlight">' + row.x + '</td>');
+                    tr.append('<td class="highlight">' + (row["Source Of Goal "] || 'N/A') + '</td>');
+                    tr.append('<td>' + row["age: 2"] + '</td>');
+                    tr.append('<td>' + row["age: 3"] + '</td>');
+                    tr.append('<td>' + row["age: 4"] + '</td>');
+                    tr.append('<td>' + row["age: 5"] + '</td>');
+                    tr.append('<td>' + row["age: 6"] + '</td>');
+                    tr.append('<td>' + row["age: 7"] + '</td>');
+                    tr.append('<td>' + row["age: 8"] + '</td>');
+                    tr.append('<td>' + row["age: 9"] + '</td>');
+                    tr.append('<td>' + row["age: 10"] + '</td>');
+                    tr.append('<td>' + row["age: 11"] + '</td>');
+                    tr.append('<td>' + row["age: 12"] + '</td>');
+                    tr.append('<td>' + row["age: 13"] + '</td>');
+                    tr.append('<td>' + row["age: 14"] + '</td>');
+                    tr.append('<td>' + row["age: 15"] + '</td>');
+                    tr.append('<td>' + row["age: 16"] + '</td>');
+                    tr.append('<td>' + row["Pregnant Women"] + '</td>');
+                    tr.append('<td>' + row["age: 18"] + '</td>');
+                    tr.append('<td>' + row["age: 19"] + '</td>');
+                    tr.append('<td>' + row["age: 20"] + '</td>');
+                    tr.append('<td>' + row["age: 21"] + '</td>');
+                    tr.append('<td>' + row["age: 22"] + '</td>');
+                    tr.append('<td>' + row["age: 23"] + '</td>');
+                    tr.append('<td>' + row["age: 24"] + '</td>');
+                    tr.append('<td>' + row["age: 25"] + '</td>');
+                    tr.append('<td>' + row["Lactating"] + '</td>');
+                    tr.append('<td>' + row["age: 27"] + '</td>');
+                    tr.append('<td>' + row["age: 28"] + '</td>');
+                    tr.append('<td>' + row["age: 29"] + '</td>');
+                    tr.append('<td>' + row["age: 30"] + '</td>');
+                    tr.append('<td>' + row["age: 31"] + '</td>');
+
+                    tbody.append(tr);
+                });
+            }
+
+            window.toggleButton = function (button) {
+                $(button).toggleClass('active');
+            }
+
+            window.filterTable = function () {
+                $("#error").hide();
+                var age = $('#age-input').val();
+                var sex = $('input[name="sex"]:checked').val();
+                // console.log("sex", sex)
+                var stage = "";
+                if (sex == "Female") {
+                    stage = $("#stage").val();
+                    // console.log("stage", stage);
+                }
+                var nutrientVal = $('input[name="nut"]:checked').val();
+
+                if(parseInt(age) <= 1 ){
+                    $("#error").text("Age should be greater than 1");
+                    $("#error").show();
+                }
+                else if ((age.length>0 || stage.length>0) &&  sex != undefined && nutrientVal != undefined) {
+                    // Determine the age group for pregnant condition
+                    var ageGroup = '';
+                    var pregnantAgeGroup = $("#female_age_drpdwn").val();
+                    if (sex == "Female" && stage.length > 0) {
+                        ageGroup = pregnantAgeGroup + "/" + stage;
+                    }
+                    // Determine the age group for male and non pregnant condition
+
+                    else if (age) {
+                        age = parseInt(age);
+                        if (age >= 2 && age <= 3) {
+                            ageGroup = '2-3 (M/F)';
+                        } else if (age >= 4 && age <= 8) {
+                            ageGroup = '4-8 ' + sex;
+                        } else if (age >= 9 && age <= 13) {
+                            ageGroup = '9-13 ' + sex;
+                        } else if (age >= 14 && age <= 18) {
+                            ageGroup = '14-18 ' + sex;
+                        } else if (age >= 19 && age <= 30) {
+                            ageGroup = '19-30 ' + sex;
+                        } else if (age >= 31 && age <= 50) {
+                            ageGroup = '31-50 ' + sex;
+                        } else if (age >= 50 && age <= 70) {
+                            ageGroup = '50-70 ' + sex;
+                        } else if (age > 70) {
+                            ageGroup = '>70 ' + sex;
+                        }
+                    }
+                    // console.log("age Group", ageGroup)
+                    // Filter rows based on selected vitamin
+                    $('#nutrients-table tbody tr').each(function () {
+                        var row = $(this);
+
+                        if (nutrientVal === "Both") {
+                            row.toggle(true);
+                        }
+                        else {
+                            var showRow = nutrientVal === 'Vit' ? true : false;
+                            if (!row.find('td').eq(0).text().startsWith('Vitamin')) {
+                                showRow = !showRow;
+                            }
+                            row.toggle(showRow);
+                        }
+                    });
+
+                    // Filter columns based on determined age group
+                    if (!ageGroup) {
+                        $('th, td').removeClass('hidden');
+                    } else {
+
+                        var columnIndex = $('th').filter(function () {
+                            return $(this).text() === ageGroup;
+                        }).index();
+
+                        $('th, td').removeClass('hidden');
+                        $('th').each(function (index) {
+                            if (index !== 0 && index !== 1 && index !== columnIndex) {
+                                $(this).addClass('hidden');
+                            }
+                        });
+                        $('#nutrients-table tbody tr').each(function () {
+                            $(this).find('td').each(function (index) {
+                                if (index !== 0 && index !== 1 && index !== columnIndex) {
+                                    $(this).addClass('hidden');
+                                }
+                            });
+                        });
+                    }
+
+                    // Show the table
+                    $('#nutrients-table').show();
+                    $('#nut-table').show();
+                }
+                else {
+                    $("#error").text("Please give all the inputs");
+                    $('#nut-table').hide();
+
+                    $("#error").show();
+                    //   console.log("error")
+                }
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
